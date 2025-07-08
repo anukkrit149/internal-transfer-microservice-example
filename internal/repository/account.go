@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"errors"
 	"gorm.io/gorm"
 	"internal-transfer-microservice/internal/domain/account"
 	"internal-transfer-microservice/internal/infrastructure/db"
@@ -49,8 +50,13 @@ func (a *AccountRepoImpl) UpdateAccount(ctx context.Context, account *account.Mo
 	return nil
 }
 
-func (a *AccountRepoImpl) CreateAccount(ctx context.Context, account *account.Model) error {
-	err := a.GetConn().Create(account)
+func (a *AccountRepoImpl) CreateAccount(ctx context.Context, accountModel *account.Model) error {
+	var tempAccount *account.Model
+	err := a.GetConn().First(&tempAccount, "account_id = ?", accountModel.AccountId)
+	if err.Error == nil {
+		return errors.New("account already exists")
+	}
+	err = a.GetConn().Create(accountModel)
 	if err.Error != nil {
 		return err.Error
 	}

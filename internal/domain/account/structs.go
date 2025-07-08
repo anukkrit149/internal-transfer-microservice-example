@@ -15,7 +15,7 @@ type CreateAccountRequest struct {
 }
 
 type TxnAccountRequest struct {
-	SourceAccountId      string  `json:"account_id"`
+	SourceAccountId      string  `json:"source_account_id"`
 	DestinationAccountId string  `json:"destination_account_id"`
 	Amount               float64 `json:"amount"`
 }
