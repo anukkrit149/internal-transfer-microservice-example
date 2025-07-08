@@ -24,3 +24,7 @@ func (b *Base) BeforeCreate(db *gorm.DB) error {
 	}
 	return nil
 }
+
+func (Base) TableName() string {
+	panic("implement me")
+}
