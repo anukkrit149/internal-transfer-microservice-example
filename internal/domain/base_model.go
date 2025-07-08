@@ -12,13 +12,13 @@ type Base struct {
 	UpdatedAt *time.Time `json:"updated_at"`
 }
 
-func (b Base) BeforeUpdate(db *gorm.DB) error {
+func (b *Base) BeforeUpdate(db *gorm.DB) error {
 	now := time.Now()
 	b.UpdatedAt = &now
 	return nil
 }
 
-func (b Base) BeforeCreate(db *gorm.DB) error {
+func (b *Base) BeforeCreate(db *gorm.DB) error {
 	if b.ID == uuid.Nil {
 		b.ID = uuid.New()
 	}

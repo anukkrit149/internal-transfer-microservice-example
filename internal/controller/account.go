@@ -34,17 +34,14 @@ func (c *AccountController) GetAccount(ctx *gin.Context) {
 
 // CreateAccount handles POST /accounts
 func (c *AccountController) CreateAccount(ctx *gin.Context) {
-	var req struct {
-		AccountId string  `json:"account_id" binding:"required"`
-		Balance   float64 `json:"balance" binding:"required"`
-	}
+	var req account.CreateAccountRequest
 
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	response, err := c.accountService.CreateAccount(ctx, req.AccountId, req.Balance)
+	response, err := c.accountService.CreateAccount(ctx, req.AccountId, req.InitialBalance)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, response)
 		return
